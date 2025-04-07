@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notas Seguras</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#4285f4">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Notas Seguras">
+<link rel="apple-touch-icon" href="icons/icon-152x152.png">
+</head>
+<body>
+    <div id="app">
+        <!-- Tela de Login -->
+        <div id="login-screen" class="screen active">
+            <div class="container">
+                <h1>Notas Seguras</h1>
+                <p>Digite seu PIN de 4 dígitos para acessar</p>
+                <div class="pin-container">
+                    <input type="password" id="pin-input" maxlength="4" inputmode="numeric" pattern="[0-9]*">
+                    <div class="pin-dots">
+                        <span class="pin-dot"></span>
+                        <span class="pin-dot"></span>
+                        <span class="pin-dot"></span>
+                        <span class="pin-dot"></span>
+                    </div>
+                </div>
+                <div class="numpad">
+                    <button class="numpad-btn" data-value="1">1</button>
+                    <button class="numpad-btn" data-value="2">2</button>
+                    <button class="numpad-btn" data-value="3">3</button>
+                    <button class="numpad-btn" data-value="4">4</button>
+                    <button class="numpad-btn" data-value="5">5</button>
+                    <button class="numpad-btn" data-value="6">6</button>
+                    <button class="numpad-btn" data-value="7">7</button>
+                    <button class="numpad-btn" data-value="8">8</button>
+                    <button class="numpad-btn" data-value="9">9</button>
+                    <button class="numpad-btn clear-btn" data-value="clear">Limpar</button>
+                    <button class="numpad-btn" data-value="0">0</button>
+                    <button class="numpad-btn enter-btn" data-value="enter">Entrar</button>
+                </div>
+                <div id="setup-pin-container" class="hidden">
+                    <p>Crie um PIN de 4 dígitos para proteger seus dados</p>
+                    <button id="setup-pin-btn" class="btn">Configurar PIN</button>
+                </div>
+                <div id="pin-error" class="error hidden">PIN incorreto. Tente novamente.</div>
+            </div>
+        </div>
+
+        <!-- Tela Principal -->
+        <div id="main-screen" class="screen">
+            <div class="header">
+                <h1>Notas Seguras</h1>
+                <div class="actions">
+                    <button id="add-btn" class="btn"><i class="fas fa-plus"></i></button>
+                    <button id="sync-btn" class="btn"><i class="fas fa-cloud-upload-alt"></i></button>
+                    <button id="logout-btn" class="btn"><i class="fas fa-sign-out-alt"></i></button>
+                </div>
+            </div>
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Pesquisar...">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+            <div id="notes-container">
+                <!-- As notas serão adicionadas dinamicamente aqui -->
+                <div class="empty-state">
+                    <i class="fas fa-lock empty-icon"></i>
+                    <p>Nenhuma nota segura encontrada</p>
+                    <p>Clique no botão + para adicionar</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tela de Edição -->
+        <div id="edit-screen" class="screen">
+            <div class="header">
+                <button id="back-btn" class="btn"><i class="fas fa-arrow-left"></i></button>
+                <h2 id="edit-title">Nova Nota</h2>
+                <button id="save-btn" class="btn"><i class="fas fa-save"></i></button>
+            </div>
+            <div class="edit-container">
+                <div class="form-group">
+                    <label for="note-title">Título</label>
+                    <input type="text" id="note-title" placeholder="Título da nota">
+                </div>
+                <div class="form-group">
+                    <label for="note-category">Categoria</label>
+                    <select id="note-category">
+                        <option value="senha">Senha</option>
+                        <option value="cartao">Cartão de Crédito</option>
+                        <option value="documento">Documento</option>
+                        <option value="nota">Nota</option>
+                        <option value="outro">Outro</option>
+                    </select>
+                </div>
+                <div id="password-fields">
+                    <div class="form-group">
+                        <label for="note-username">Usuário/Email</label>
+                        <input type="text" id="note-username" placeholder="Nome de usuário ou email">
+                    </div>
+                    <div class="form-group password-input-group">
+                        <label for="note-password">Senha</label>
+                        <div class="password-container">
+                            <input type="password" id="note-password" placeholder="Senha">
+                            <button id="toggle-password" class="btn"><i class="fas fa-eye"></i></button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="note-website">Website</label>
+                        <input type="text" id="note-website" placeholder="https://exemplo.com">
+                    </div>
+                </div>
+                <div id="card-fields" class="hidden">
+                    <div class="form-group">
+                        <label for="card-number">Número do Cartão</label>
+                        <input type="text" id="card-number" placeholder="XXXX XXXX XXXX XXXX" maxlength="19">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="card-expiry">Validade</label>
+                            <input type="text" id="card-expiry" placeholder="MM/AA" maxlength="5">
+                        </div>
+                        <div class="form-group">
+                            <label for="card-cvv">CVV</label>
+                            <input type="text" id="card-cvv" placeholder="123" maxlength="3">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="card-holder">Nome no Cartão</label>
+                        <input type="text" id="card-holder" placeholder="NOME COMPLETO">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="note-content">Conteúdo</label>
+                    <textarea id="note-content" placeholder="Informações adicionais..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tela de Configurações do Google Drive -->
+        <div id="drive-screen" class="screen">
+            <div class="header">
+                <button id="drive-back-btn" class="btn"><i class="fas fa-arrow-left"></i></button>
+                <h2>Google Drive</h2>
+                <button id="drive-save-btn" class="btn"><i class="fas fa-save"></i></button>
+            </div>
+            <div class="drive-container">
+                <div id="drive-not-connected">
+                    <p>Conecte-se ao Google Drive para sincronizar seus dados</p>
+                    <button id="drive-connect-btn" class="btn primary-btn">Conectar ao Google Drive</button>
+                </div>
+                <div id="drive-connected" class="hidden">
+                    <div class="drive-info">
+                        <i class="fas fa-check-circle"></i>
+                        <p>Conectado ao Google Drive</p>
+                        <p id="drive-email">email@exemplo.com</p>
+                    </div>
+                    <div class="sync-options">
+                        <h3>Opções de Sincronização</h3>
+                        <div class="form-group">
+                            <label for="auto-sync">Sincronização Automática</label>
+                            <label class="switch">
+                                <input type="checkbox" id="auto-sync">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <button id="sync-now-btn" class="btn">Sincronizar Agora</button>
+                        </div>
+                        <div class="form-group">
+                            <button id="drive-disconnect-btn" class="btn danger-btn">Desconectar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="https://accounts.google.com/gsi/client"></script>
+    <script src="storage.js"></script>
+    <script src="app.js"></script>
+    
+    <script>
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js')
+              .then(registration => {
+                console.log('Service Worker registrado com sucesso:', registration.scope);
+              })
+              .catch(error => {
+                console.log('Falha ao registrar o Service Worker:', error);
+              });
+          });
+        }
+      </script>
+    
+</body>
+</html>
