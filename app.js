@@ -3,6 +3,10 @@
  * Gerencia a interface do usuário e a lógica do aplicativo
  */
 
+// Configurações do Google Drive
+const GOOGLE_API_KEY = 'AIzaSyCBEiN7MzQLJ5mNjubdhjzBMys1Z_MwmZU';
+const GOOGLE_CLIENT_ID = '407660085834-8s0pohe42hiu474vhd617a84bvnmq46m.apps.googleusercontent.com';
+
 class NotasSeguras {
     constructor() {
         // [Previous constructor code remains the same...]
