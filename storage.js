@@ -326,8 +326,8 @@ class SecureStorage {
             try {
                 gapi.load('client:auth2', () => {
                     gapi.client.init({
-                        apiKey: 'YOUR_API_KEY', // Substituir por sua chave de API
-                        clientId: 'YOUR_CLIENT_ID', // Substituir por seu Client ID
+                        apiKey: 'AIzaSyCBEiN7MzQLJ5mNjubdhjzBMys1Z_MwmZU', // Substituir por sua chave de API
+                        clientId: '407660085834-8s0pohe42hiu474vhd617a84bvnmq46m.apps.googleusercontent.com', // Substituir por seu Client ID
                         discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'],
                         scope: 'https://www.googleapis.com/auth/drive.file'
                     }).then(() => {
